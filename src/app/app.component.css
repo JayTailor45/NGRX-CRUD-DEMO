@@ -1,0 +1,8 @@
+.user-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.user-actions button {
+  margin-left: 10px;
+}
