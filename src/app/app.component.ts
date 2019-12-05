@@ -1,7 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {postFeature, selectedPostSelector, selectPosts, State} from './reducers';
-import {AddNewPost, DeletePostById, EditPostById, EditPostClicked, GetPosts} from './actions/post.action';
+import {isEditingSelector, postFeature, selectedPostSelector, selectPosts, State} from './reducers';
+import {
+  AddNewPost,
+  CancelAddEditPostClicked,
+  DeletePostById,
+  EditPostById,
+  EditPostClicked,
+  GetPosts
+} from './actions/post.action';
 import {Observable} from 'rxjs';
 import {FormControl, FormGroup} from '@angular/forms';
 
@@ -14,6 +21,7 @@ export class AppComponent implements OnInit {
   post: Observable<any>;
   posts: Observable<any>;
   postForm: FormGroup;
+  isEditing: Observable<any>;
 
   constructor(private store: Store<State>) {
     this.store.dispatch(new GetPosts());
@@ -22,6 +30,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.posts = this.store.pipe(select(selectPosts));
     this.post = this.store.pipe(select(selectedPostSelector));
+    this.isEditing = this.store.pipe(select(isEditingSelector));
     this.postForm = new FormGroup({
       title: new FormControl(''),
       content: new FormControl(''),
@@ -35,11 +44,7 @@ export class AppComponent implements OnInit {
           tags: post.tags.join(',')
         });
       } else {
-        this.postForm.patchValue({
-          title: '',
-          content: '',
-          tags: ''
-        });
+        this.resetForm();
       }
     });
   }
@@ -70,5 +75,18 @@ export class AppComponent implements OnInit {
 
   onEditClicked(postId): void {
     this.store.dispatch(new EditPostClicked(postId));
+  }
+
+  cancelPostClicked(): void {
+    this.resetForm();
+    this.store.dispatch(new CancelAddEditPostClicked());
+  }
+
+  resetForm(): void {
+    this.postForm.patchValue({
+      title: '',
+      content: '',
+      tags: ''
+    });
   }
 }

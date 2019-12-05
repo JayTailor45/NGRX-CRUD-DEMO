@@ -14,7 +14,7 @@ export const EDIT_POST_BY_ID_SUCCESS = '[POST] Edit post by id success';
 
 export const EDIT_POST_CLICKED = '[POST] Edit post clicked';
 export const EDIT_POST_DATA_ARRIVED = '[POST] Edit post data arrived from state';
-export const CANCEL_EDIT_POST_CLICKED = '[POST] Cancel post clicked';
+export const CANCEL_ADD_EDIT_POST_CLICKED = '[POST] Cancel post clicked';
 
 export const POST_ERROR = '[POST] Post error';
 
@@ -62,8 +62,8 @@ export class EditPostDataArrived implements Action {
   constructor(public payload: any) {}
 }
 
-export class CancelEditPostClicked implements Action {
-  readonly type = CANCEL_EDIT_POST_CLICKED;
+export class CancelAddEditPostClicked implements Action {
+  readonly type = CANCEL_ADD_EDIT_POST_CLICKED;
 }
 
 export class EditPostById implements Action {
@@ -87,5 +87,5 @@ export type PostActions =
   | EditPostById
   | EditPostByIdSuccess
   | EditPostClicked
-  | CancelEditPostClicked
+  | CancelAddEditPostClicked
   | EditPostDataArrived;

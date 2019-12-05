@@ -16,9 +16,9 @@
       <input formControlName="tags" type="text" class="form-control" placeholder="habit, routine">
     </div>
     <div class="user-actions">
-      <button type="submit" class="btn btn-primary" (click)="onAddClicked()">Add</button>
-      <button type="submit" class="btn btn-primary" (click)="onEditPostClicked()">Edit</button>
-      <button type="submit" class="btn btn-primary">Cancel</button>
+      <button type="submit" class="btn btn-primary" *ngIf="!(isEditing | async)" (click)="onAddClicked()">Add</button>
+      <button type="submit" class="btn btn-primary" *ngIf="isEditing | async" (click)="onEditPostClicked()">Edit</button>
+      <button type="submit" class="btn btn-outline-secondary" (click)="cancelPostClicked()">Cancel</button>
     </div>
   </form>
 
