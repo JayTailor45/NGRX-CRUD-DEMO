@@ -23,4 +23,9 @@ export const selectPosts = createSelector(
   (state: PostState) => state.posts
 );
 
+export const selectedPostSelector = createSelector(
+  postFeature,
+  (state: PostState) => state.selectedPost
+);
+
 export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];

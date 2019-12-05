@@ -21,4 +21,8 @@ export class PostService {
   addNewPost = (post): Observable<any> => {
     return this.http.post(`${environment.baseUrl}`, post);
   }
+
+  editPostById = (post): Observable<any> => {
+    return this.http.put(`${environment.baseUrl}/${post.id}`, post);
+  }
 }

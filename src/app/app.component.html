@@ -17,7 +17,7 @@
     </div>
     <div class="user-actions">
       <button type="submit" class="btn btn-primary" (click)="onAddClicked()">Add</button>
-      <button type="submit" class="btn btn-primary">Edit</button>
+      <button type="submit" class="btn btn-primary" (click)="onEditPostClicked()">Edit</button>
       <button type="submit" class="btn btn-primary">Cancel</button>
     </div>
   </form>
@@ -41,7 +41,7 @@
       <td>{{post.content}}</td>
       <td>{{post.tags.join(',')}}</td>
       <td>
-        <button type="button" class="btn btn-outline-primary btn-sm" style="margin-right: 10px">Edit</button>
+        <button type="button" class="btn btn-outline-primary btn-sm" style="margin-right: 10px" (click)="onEditClicked(post.id)">Edit</button>
         <button type="button" class="btn btn-danger btn-sm" (click)="onDeleteClicked(post.id)">DELETE</button>
       </td>
     </tr>

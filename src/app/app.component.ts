@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {postFeature, selectPosts, State} from './reducers';
-import {AddNewPost, DeletePostById, GetPosts} from './actions/post.action';
+import {postFeature, selectedPostSelector, selectPosts, State} from './reducers';
+import {AddNewPost, DeletePostById, EditPostById, EditPostClicked, GetPosts} from './actions/post.action';
 import {Observable} from 'rxjs';
 import {FormControl, FormGroup} from '@angular/forms';
 
@@ -11,6 +11,7 @@ import {FormControl, FormGroup} from '@angular/forms';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  post: Observable<any>;
   posts: Observable<any>;
   postForm: FormGroup;
 
@@ -20,10 +21,26 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.posts = this.store.pipe(select(selectPosts));
+    this.post = this.store.pipe(select(selectedPostSelector));
     this.postForm = new FormGroup({
       title: new FormControl(''),
       content: new FormControl(''),
       tags: new FormControl('')
+    });
+    this.post.subscribe(post => {
+      if (post !== null && post !== undefined) {
+        this.postForm.patchValue({
+          title: post.title,
+          content: post.content,
+          tags: post.tags.join(',')
+        });
+      } else {
+        this.postForm.patchValue({
+          title: '',
+          content: '',
+          tags: ''
+        });
+      }
     });
   }
 
@@ -33,11 +50,25 @@ export class AppComponent implements OnInit {
 
   onAddClicked(): void {
     const raw = this.postForm.getRawValue();
-    let post = {
+    const post = {
       title: raw.title,
       content: raw.content,
       tags: raw.tags.split(',')
     };
     this.store.dispatch(new AddNewPost(post));
+  }
+
+  onEditPostClicked(): any {
+    const raw = this.postForm.getRawValue();
+    const post = {
+      title: raw.title,
+      content: raw.content,
+      tags: raw.tags.split(',')
+    };
+    this.store.dispatch(new EditPostById(post));
+  }
+
+  onEditClicked(postId): void {
+    this.store.dispatch(new EditPostClicked(postId));
   }
 }
